@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+        <record id="view_sale_global_discount_form" model="ir.ui.view">
+            <field name="name">view.sale.global.discount.form</field>
+            <field name="model">sale.global.discount</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="value" />
+                    <field name="sequence" />
+                    <field name="default" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_sale_global_discount_tree" model="ir.ui.view">
+            <field name="name">view.sale.global.discount.tree</field>
+            <field name="model">sale.global.discount</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="value" />
+                    <field name="sequence" />
+                    <field name="default" />
+                </tree>
+            </field>
+        </record>
+
+	    <record id="view_sale_order_gdiscount_form" model="ir.ui.view">
+        	<field name="name">sale.order.gdiscount.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="replace">
+                    <field name="price_subtotal" invisible="1"/>
+                    <field name="price_line_subtotal"/>
+                </xpath>
+                <field name="order_line" position="after">
+                    <group colspan="4">
+                        <separator string="Descuentos globales" colspan="4" />
+                        <field name="global_discount_ids" colspan="4" nolabel="1" on_change="onchange_discounts(global_discount_ids)">
+                            <tree editable="bottom" string="Descuentos globales">
+                                <field name="name" />
+                                <field name="value" />
+                                <field name="sequence" />
+                                <field name="default" />
+                            </tree>
+                        </field>
+                    </group>
+                </field>
+                <field name="amount_untaxed" position="before">
+                    <field name="amount_subtotal" />
+                </field>
+        	</field>
+	    </record>
+
+        <record id="action_global_discounts_menu" model="ir.actions.act_window">
+            <field name="name">Configuración de descuentos globales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.global.discount</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="global_discounts_config" name="Descuentos globales" parent="base.menu_base_config" sequence="50" groups="base.group_extended" action="action_global_discounts_menu" />
+
+    </data>
+</openerp>

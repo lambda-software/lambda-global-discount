@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="global_discounts" model="res.groups">
+            <field name="category_id" ref="base.module_category_usability"/>
+	        <field name="name">Descuentos globales</field>
+		</record>
+	</data>
+</openerp>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+	    <record id="view_invoice_line_globaldc_tree" model="ir.ui.view">
+        	<field name="name">account.invoice.line.globaldc.tree</field>
+            <field name="model">account.invoice.line</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.view_invoice_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="price_subtotal" position="replace">
+                    <field name="price_line_subtotal" />
+                </field>
+        	</field>
+	    </record>
+
+	    <record id="account.invoice_gdc_form" model="ir.ui.view">
+        	<field name="name">account.invoice.gdc.form</field>
+            <field name="model">account.invoice</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <field name="invoice_line" position="after">
+                    <group colspan="4">
+                        <separator string="Descuentos globales" colspan="4" />
+                        <field name="global_discount_ids" colspan="4" nolabel="1" on_change="onchange_discounts(global_discount_ids)">
+                            <tree editable="bottom" string="Descuentos globales">
+                                <field name="name" />
+                                <field name="value" />
+                                <field name="sequence" />
+                                <field name="default" />
+                            </tree>
+                        </field>
+                    </group>
+                </field>
+                <button name="button_reset_taxes" position="replace">
+                    <button name="button_reset_taxes" states="draft,proforma2" string="Recalcular descuentos e impuestos" type="object" groups="base.group_user" icon="terp-stock_format-scientific" help="This action will erase taxes" />
+                </button>
+                <field name="amount_untaxed" position="before">
+                    <field name="amount_subtotal" />
+                    <label string="" colspan="2"/>
+                </field>
+        	</field>
+	    </record>
+
+    </data>
+</openerp>

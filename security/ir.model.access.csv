@@ -1,0 +1,6 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+
+"access_lambda_global_discount_user","lambda_global_discounts.sale.global.discount","model_sale_global_discount","base.group_user",1,1,0,0
+"access_lambda_global_discount_manager","lambda_global_discounts.sale.global.discount","model_sale_global_discount","base.group_sale_manager",1,1,1,1
+
+
