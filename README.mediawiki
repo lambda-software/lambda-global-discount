@@ -1,8 +1,8 @@
 =OPENERP Lambda Global Discount=
 ==Description==
 OPENERP Lambda Global Discount is an openerp module which adds multiple global discount to sale orders.
-====Licence====
+==Licence===
 AGPL
-=====Copyright=====
+==Copyright===
 Lambda Software
 www.lambdasoftware.net
