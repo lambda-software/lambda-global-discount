@@ -24,7 +24,7 @@ from osv import fields, osv
 class stock_picking(osv.osv):
     _inherit = 'stock.picking'
     _columns = {
-        'global_discount_ids':fields.many2many('sale.global.discount','stock_picking_global_discounts_rel','picking_id','discount_id','Descuentos globales', readonly=True, states={'draft': [('readonly', False)]}),
+        'global_discount_ids':fields.many2many('sale.global.discount','stock_picking_global_discounts_rel','picking_id','discount_id','Global Discounts', readonly=True, states={'draft': [('readonly', False)]}),
     }
 
     def _prepare_invoice(self, cr, uid, picking, partner, inv_type, journal_id, context=None):

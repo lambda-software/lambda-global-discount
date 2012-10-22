@@ -1,0 +1,107 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* lambda_global_discounts
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-30 08:43+0000\n"
+"PO-Revision-Date: 2012-07-30 08:43+0000\n"
+"Last-Translator: <development@lambdasoftware.net>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: lambda_global_discounts
+#: field:sale.order,global_discount_ids:0
+#: field:stock.picking,global_discount_ids:0
+#: field:account.invoice,global_discount_ids:0
+#: model:ir.ui.menu,name:lambda_global_discounts.global_discounts_config
+#: view:sale.order:0
+#: view:account.invoice:0
+msgid "Global Discounts"
+msgstr "Descuentos Globales"
+
+#. module: lambda_global_discounts
+#: field:account.invoice,amount_untaxed:0
+#: field:sale.order,amount_untaxed:0
+msgid "Untaxed Amount"
+msgstr "Base imponible"
+
+#. module: lambda_global_discounts
+#: help:account.invoice,amount_untaxed:0
+#: help:sale.order,amount_untaxed:0
+msgid "Total with discounts and without taxes."
+msgstr "Suma total sin iva con descuentos incluidos."
+
+#. module: lambda_global_discounts
+#: field:account.invoice,amount_tax:0
+#: field:sale.order,amount_tax:0
+msgid "Taxes"
+msgstr "Cuota IVA"
+
+#. module: lambda_global_discounts
+#: field:account.invoice,amount_total:0
+#: field:sale.order,amount_total:0
+msgid "Total"
+msgstr "Total"
+
+#. module: lambda_global_discounts
+#: field:account.invoice,amount_subtotal:0
+#: field:sale.order,amount_subtotal:0
+msgid "Amount Subtotal"
+msgstr "Suma total"
+
+#. module: lambda_global_discounts
+#: help:account.invoice,amount_subtotal:0
+#: help:sale.order,amount_subtotal:0
+msgid "Total amount without global discounts."
+msgstr "Suma total sin descuentos globales."
+
+#. module: lambda_global_discounts
+#: view:account.invoice:0
+msgid "Compute discounts and taxes"
+msgstr "Calcular descuentos e impuestos"
+
+#. module: lambda_global_discounts
+#: model:ir.actions.act_window,name:lambda_global_discounts.action_global_discounts_menu
+msgid "Global discounts configuration"
+msgstr "Configuración de descuentos globales"
+
+#. module: lambda_global_discounts
+#: field:sale.global.discount,name:0
+msgid "Reason"
+msgstr "Motivo"
+
+#. module: lambda_global_discounts
+#: help:sale.global.discount,name:0
+msgid "Reason of discount."
+msgstr "Motivo del descuento."
+
+#. module: lambda_global_discounts
+#: field:sale.global.discount,value:0
+msgid "Discount (%)"
+msgstr "Descuento (%)"
+
+#. module: lambda_global_discounts
+#: field:sale.global.discount,sequence:0
+msgid "Sequence"
+msgstr "Orden"
+
+#. module: lambda_global_discounts
+#: help:sale.global.discount,sequence:0
+msgid "The sequence order to apply discounts."
+msgstr "Indicará el orden en el que se aplicarán los descuentos."
+
+#. module: lambda_global_discounts
+#: field:sale.global.discount,default:0
+msgid "Default Discount"
+msgstr "Descuento por defecto"
+
+#. module: lambda_global_discounts
+#: help:sale.global.discount,default:0
+msgid "If checked this discount will be applied by default."
+msgstr "Si está marcado este descuento será aplicado por defecto a todos los pedidos que sean creados."

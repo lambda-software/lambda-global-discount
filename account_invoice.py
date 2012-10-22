@@ -2,9 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
-#    Copyright (C) 2012 Compuservice (http://www.compuservice.es)
-#                       Juan Antonio Martín (jamartin@compuservice.es)
+#    Copyright (C) 2012 Lambda Software (http://www.lambdasoftware.net)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -59,15 +57,15 @@ class account_invoice(osv.osv):
         return result.keys()
 
     _columns={
-        'global_discount_ids':fields.many2many('sale.global.discount','account_invoice_global_discounts_rel','invoice_id','discount_id','Descuentos globales', readonly=True, states={'draft': [('readonly', False)]}),
-        'amount_untaxed': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Base imponible',
+        'global_discount_ids':fields.many2many('sale.global.discount','account_invoice_global_discounts_rel','invoice_id','discount_id','Global Discounts', readonly=True, states={'draft': [('readonly', False)]}),
+        'amount_untaxed': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Untaxed Amount',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line','global_discount_ids'], 20),
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
                 'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 20),
             },
-            multi='all', help="Suma total sin iva con descuentos incluidos"),
-        'amount_tax': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Cuota I.V.A',
+            multi='all', help="Total with discounts and without taxes."),
+        'amount_tax': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Taxes',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line','global_discount_ids'], 20),
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
@@ -81,13 +79,13 @@ class account_invoice(osv.osv):
                 'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 20),
             },
             multi='all'),
-        'amount_subtotal': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Suma total',
+        'amount_subtotal': fields.function(_amount_all, digits_compute=dp.get_precision('Account'), string='Amount Subtotal',
             store={
                 'account.invoice': (lambda self, cr, uid, ids, c={}: ids, ['invoice_line','global_discount_ids'], 20),
                 'account.invoice.tax': (_get_invoice_tax, None, 20),
                 'account.invoice.line': (_get_invoice_line, ['price_unit','invoice_line_tax_id','quantity','discount','invoice_id'], 20),
             },
-            multi='all', help="Suma total sin descuentos globales."),
+            multi='all', help="Total amount without global discounts."),
     }
 
     def onchange_discounts(self, cr, uid, ids, discounts,context=None):

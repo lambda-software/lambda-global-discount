@@ -3,7 +3,7 @@
 	<data>
 		<record id="global_discounts" model="res.groups">
             <field name="category_id" ref="base.module_category_usability"/>
-	        <field name="name">Descuentos globales</field>
+	        <field name="name">Global Discounts</field>
 		</record>
 	</data>
 </openerp>

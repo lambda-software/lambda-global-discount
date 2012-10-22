@@ -22,9 +22,9 @@
             <field name="arch" type="xml">
                 <field name="invoice_line" position="after">
                     <group colspan="4">
-                        <separator string="Descuentos globales" colspan="4" />
+                        <separator string="Global Discounts" colspan="4" />
                         <field name="global_discount_ids" colspan="4" nolabel="1" on_change="onchange_discounts(global_discount_ids)">
-                            <tree editable="bottom" string="Descuentos globales">
+                            <tree editable="bottom" string="Global Discounts">
                                 <field name="name" />
                                 <field name="value" />
                                 <field name="sequence" />
@@ -34,7 +34,7 @@
                     </group>
                 </field>
                 <button name="button_reset_taxes" position="replace">
-                    <button name="button_reset_taxes" states="draft,proforma2" string="Recalcular descuentos e impuestos" type="object" groups="base.group_user" icon="terp-stock_format-scientific" help="This action will erase taxes" />
+                    <button name="button_reset_taxes" states="draft,proforma2" string="Compute discounts and taxes" type="object" groups="base.group_user" icon="terp-stock_format-scientific" help="This action will erase taxes" />
                 </button>
                 <field name="amount_untaxed" position="before">
                     <field name="amount_subtotal" />

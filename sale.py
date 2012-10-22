@@ -2,8 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
-#    Copyright (C) 2012 Compuservice (http://www.compuservice.es)
+#    Copyright (C) 2012 Lambda Software (http://www.lambdasoftware.net)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -27,10 +26,10 @@ class global_discount(osv.osv):
     _name='sale.global.discount'
     _order = 'sequence ASC'
     _columns={
-        'name' : fields.char('Motivo', size=128, help='Motivo del descuento'),
-        'value': fields.float('Descuento (%)', digits=(16, 2)),
-        'sequence': fields.integer('Orden', help='Indicará el orden en el que se aplicarán los descuentos'),
-        'default':fields.boolean('Descuento por defecto', help='Si está marcado este descuento será aplicado por defecto a todos los pedidos que sean creados.')
+        'name' : fields.char('Reason', size=128, help='Reason of discount.'),
+        'value': fields.float('Discount (%)', digits=(16, 2)),
+        'sequence': fields.integer('Sequence', help='The sequence order to apply discounts.'),
+        'default':fields.boolean('Default Discount', help='If checked this discount will be applied by default.')
     }
 global_discount()    
 
@@ -86,7 +85,7 @@ class sale_order(osv.osv):
                 'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line','global_discount_ids'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
             },
-            multi='sums', help="The amount without tax."),
+            multi='sums', help="Total with discounts and without taxes."),
         'amount_tax': fields.function(_amount_all, digits_compute= dp.get_precision('Sale Price'), string='Taxes',
             store = {
                 'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line','global_discount_ids'], 10),
@@ -99,12 +98,12 @@ class sale_order(osv.osv):
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
             },
             multi='sums', help="The total amount."),
-        'amount_subtotal': fields.function(_amount_all, digits_compute= dp.get_precision('Sale Price'), string='Suma total',
+        'amount_subtotal': fields.function(_amount_all, digits_compute= dp.get_precision('Sale Price'), string='Amount Subtotal',
             store = {
                 'sale.order': (lambda self, cr, uid, ids, c={}: ids, ['order_line','global_discount_ids'], 10),
                 'sale.order.line': (_get_order, ['price_unit', 'tax_id', 'discount', 'product_uom_qty'], 10),
             },
-            multi='sums', help="Suma total sin descuentos globales."),
+            multi='sums', help="Total amount without global discounts."),
 
     }
     _defaults={

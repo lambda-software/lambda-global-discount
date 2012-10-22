@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    OpenERP, Open Source Management Solution
-#    Copyright (C) 2012 Compuservice (http://www.compuservice.es)
+#    Copyright (C) 2012 Lambda Software (http://www.lambdasoftware.net)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -21,15 +21,15 @@
 
 {
     'name': 'Sale global discounts',
-    'version': '1.3',
+    'version': '1.4',
     'category' : 'Sale',
     'complexity': 'easy',
-    'depends': ['account', 'sale'],
-    'author': 'www.compuservice.es',
-    'website': 'http://www.compuservice.es',
+    'depends': ['account', 'sale', 'stock'],
+    'author': 'Lambda Software',
+    'website': 'http://www.lambdasoftware.net',
     'description':
     '''
-        Descuentos de ventas globales a los pedidos de ventas y facturas
+        Global discounts on out invoices and sale orders
     ''',
     "init_xml": [],
     'update_xml': [
@@ -41,5 +41,4 @@
     'installable': True,
     'auto_install': False,
     'active': False,
-#    'certificate': 'certificate',
 }

@@ -41,9 +41,9 @@
                 </xpath>
                 <field name="order_line" position="after">
                     <group colspan="4">
-                        <separator string="Descuentos globales" colspan="4" />
+                        <separator string="Global Discounts" colspan="4" />
                         <field name="global_discount_ids" colspan="4" nolabel="1" on_change="onchange_discounts(global_discount_ids)">
-                            <tree editable="bottom" string="Descuentos globales">
+                            <tree editable="bottom" string="Global Discounts">
                                 <field name="name" />
                                 <field name="value" />
                                 <field name="sequence" />
@@ -59,13 +59,13 @@
 	    </record>
 
         <record id="action_global_discounts_menu" model="ir.actions.act_window">
-            <field name="name">Configuración de descuentos globales</field>
+            <field name="name">Global discounts configuration</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sale.global.discount</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
-        <menuitem id="global_discounts_config" name="Descuentos globales" parent="base.menu_base_config" sequence="50" groups="base.group_extended" action="action_global_discounts_menu" />
+        <menuitem id="global_discounts_config" name="Global Discounts" parent="base.menu_base_config" sequence="50" groups="base.group_extended" action="action_global_discounts_menu" />
 
     </data>
 </openerp>
