@@ -23,7 +23,7 @@
                 <field name="invoice_line" position="after">
                     <group colspan="4">
                         <separator string="Global Discounts" colspan="4" />
-                        <field name="global_discount_ids" colspan="4" nolabel="1" on_change="onchange_discounts(global_discount_ids)">
+                        <field name="global_discount_ids" colspan="4" nolabel="1" >
                             <tree editable="bottom" string="Global Discounts">
                                 <field name="name" />
                                 <field name="value" />

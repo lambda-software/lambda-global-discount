@@ -88,12 +88,47 @@ class account_invoice(osv.osv):
             multi='all', help="Total amount without global discounts."),
     }
 
-    def onchange_discounts(self, cr, uid, ids, discounts,context=None):
-        for invoice in self.browse(cr, uid, ids, context):    
-            for line in invoice.invoice_line:
-                self.pool.get('account.invoice.line').write(cr, uid, line.id, {}, context=context)
-        return {}
+    def create (self, cr, uid, vals, context=None):
+        res_id = super(account_invoice, self).create(cr, uid, vals, context)
+        invoice_line_pool = self.pool.get('account.invoice.line')
+        tax_obj = self.pool.get('account.tax')
+        invoice = self.browse(cr, uid, res_id, context)
+        for line in invoice.invoice_line:
+            values={}
+            # Cálculo de descuentos
+            precio = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+            taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, precio, line.quantity, invoice.partner_id.id, line.product_id, invoice.partner_id)
+            for discount in invoice.global_discount_ids: precio -= precio * discount.value / 100.0
+            taxes_disc = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, precio, line.quantity, invoice.partner_id.id, line.product_id, invoice.partner_id)
 
+            values['price_line_subtotal'] = taxes['total']
+            values['price_subtotal'] = taxes_disc['total']
+            invoice_line_pool.write(cr, uid, line.id, values, context=context)
+        return res_id
+
+    def write (self, cr, uid, ids, vals, context=None):
+        res = super(account_invoice, self).write(cr, uid, ids, vals, context)
+        invoice_line_pool = self.pool.get('account.invoice.line')
+        tax_obj = self.pool.get('account.tax')
+        if isinstance( ids, int ): ids=[ids]
+        for invoice in self.browse(cr, uid, ids, context):  
+            for line in invoice.invoice_line:
+                values={}
+                # Cálculo de descuentos
+                precio = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+                taxes = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, precio, line.quantity, invoice.partner_id.id, line.product_id, invoice.partner_id)
+                for discount in invoice.global_discount_ids: precio -= precio * discount.value / 100.0
+                taxes_disc = tax_obj.compute_all(cr, uid, line.invoice_line_tax_id, precio, line.quantity, invoice.partner_id.id, line.product_id, invoice.partner_id)
+
+                values['price_line_subtotal'] = taxes['total']
+                values['price_subtotal'] = taxes_disc['total']
+                invoice_line_pool.write(cr, uid, line.id, values, context=context)
+
+        # Update the stored value (fields.function), so we write to trigger recompute
+        res = super(account_invoice, self).write(cr, uid, ids, vals, context)
+
+        return res
+        
 account_invoice()
 
 class account_invoice_line(osv.osv):

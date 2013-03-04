@@ -1,0 +1,129 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* franchaises_client
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-07-03 14:50+0000\n"
+"PO-Revision-Date: 2012-07-03 14:50+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: franchaises_client
+#: code:addons/franchaises_client/franchaises_client.py:185
+#, python-format
+msgid "You plan to sell %.2f %s but you only have %.2f %s available !\n"
+"The real stock is %.2f %s. (without reservations)                \n"
+" SI QUIERES, VENDE, PERO SE GENERARÁ UN PEDIDO AL PROVEEDOR / FRANQUICIADOR QUE TIENE %s "
+msgstr "You plan to sell %.2f %s but you only have %.2f %s available !\n"
+"The real stock is %.2f %s. (without reservations)                \n"
+" SI QUIERES, VENDE, PERO SE GENERARÁ UN PEDIDO AL PROVEEDOR / FRANQUICIADOR QUE TIENE %s "
+
+#. module: franchaises_client
+#: view:res.partner:0
+msgid "Frachaiser data"
+msgstr "Frachaiser data"
+
+#. module: franchaises_client
+#: view:res.partner:0
+msgid "TEST OOOP"
+msgstr "TEST OOOP"
+
+#. module: franchaises_client
+#: code:addons/franchaises_client/franchaises_client.py:74
+#, python-format
+msgid "No Customer Defined !"
+msgstr "No Customer Defined !"
+
+#. module: franchaises_client
+#: model:ir.model,name:franchaises_client.model_franchaiser_partner_data
+msgid "franchaiser.partner.data"
+msgstr "franchaiser.partner.data"
+
+#. module: franchaises_client
+#: code:addons/franchaises_client/franchaises_client.py:111
+#, python-format
+msgid "Picking Information !"
+msgstr "Picking Information !"
+
+#. module: franchaises_client
+#: code:addons/franchaises_client/franchaises_client.py:194
+#, python-format
+msgid "You plan to sell %.2f %s but you only have %.2f %s available !\n"
+"The real stock is %.2f %s. (without reservations)"
+msgstr "You plan to sell %.2f %s but you only have %.2f %s available !\n"
+"The real stock is %.2f %s. (without reservations)"
+
+#. module: franchaises_client
+#: code:addons/franchaises_client/franchaises_client.py:74
+#, python-format
+msgid "You have to select a customer in the sales form !\n"
+"Please set one customer before choosing a product."
+msgstr "You have to select a customer in the sales form !\n"
+"Please set one customer before choosing a product."
+
+#. module: franchaises_client
+#: code:addons/franchaises_client/franchaises_client.py:193
+#, python-format
+msgid "Not enough stock !"
+msgstr "Not enough stock !"
+
+#. module: franchaises_client
+#: model:ir.actions.act_window,name:franchaises_client.action_franchaiser
+#: model:ir.ui.menu,name:franchaises_client.menu_franchaiser
+#: field:res.partner,is_franchaiser:0
+msgid "Franchaiser"
+msgstr "Franchaiser"
+
+#. module: franchaises_client
+#: model:ir.model,name:franchaises_client.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea pedido de venta"
+
+#. module: franchaises_client
+#: constraint:res.partner:0
+msgid "Only one franchaiser allowed."
+msgstr "Only one franchaiser allowed."
+
+#. module: franchaises_client
+#: code:addons/franchaises_client/franchaises_client.py:105
+#, python-format
+msgid "You selected a quantity of %d Units.\n"
+"But it's not compatible with the selected packaging.\n"
+"Here is a proposition of quantities according to the packaging:\n"
+"\n"
+"EAN: %s Quantity: %s Type of ul: %s"
+msgstr "You selected a quantity of %d Units.\n"
+"But it's not compatible with the selected packaging.\n"
+"Here is a proposition of quantities according to the packaging:\n"
+"\n"
+"EAN: %s Quantity: %s Type of ul: %s"
+
+#. module: franchaises_client
+#: model:ir.model,name:franchaises_client.model_res_partner
+msgid "Partner"
+msgstr "Empresa"
+
+#. module: franchaises_client
+#: help:res.partner,is_franchaiser:0
+msgid "Check this box if the supplierr is a franchaiser"
+msgstr "Check this box if the supplierr is a franchaiser"
+
+#. module: franchaises_client
+#: code:addons/franchaises_client/franchaises_client.py:184
+#, python-format
+msgid "NOOOOO TENEEEEMOOOOSSSS STOCK !"
+msgstr "NOOOOO TENEEEEMOOOOSSSS STOCK !"
+
+#. module: franchaises_client
+#: code:addons/franchaises_client/franchaises_client.py:102
+#, python-format
+msgid "(n/a)"
+msgstr "(n/a)"
+

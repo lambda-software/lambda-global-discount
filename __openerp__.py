@@ -21,15 +21,15 @@
 
 {
     'name': 'Sale global discounts',
-    'version': '1.4',
-    'category' : 'Sale',
+    'version': '1.5',
+    'category' : 'Sales Management',
     'complexity': 'easy',
     'depends': ['account', 'sale', 'stock'],
     'author': 'Lambda Software',
     'website': 'http://www.lambdasoftware.net',
     'description':
     '''
-        Global discounts on out invoices and sale orders
+        Global discounts in sale orders and out invoices.
     ''',
     "init_xml": [],
     'update_xml': [

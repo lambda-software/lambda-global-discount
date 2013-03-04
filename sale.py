@@ -125,30 +125,90 @@ class sale_order(osv.osv):
         invoice_vals.update({'global_discount_ids': [(6, 0, discounts)]})
         return invoice_vals
 
-    def onchange_discounts(self, cr, uid, ids, discounts,context=None):
+    def create (self, cr, uid, vals, context=None):
+        res_id = super(sale_order, self).create(cr, uid, vals, context)
+        order_line_pool = self.pool.get('sale.order.line')
+        tax_obj = self.pool.get('account.tax')
+        order = self.browse(cr, uid, res_id, context)
+        for line in order.order_line:
+            values={}
+            # Cálculo de descuentos
+            precio = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+            taxes = tax_obj.compute_all(cr, uid, line.tax_id, precio, line.product_uom_qty, order.partner_invoice_id.id, line.product_id, order.partner_id)
+            for discount in order.global_discount_ids: precio -= precio * discount.value / 100.0
+            taxes_disc = tax_obj.compute_all(cr, uid, line.tax_id, precio, line.product_uom_qty, order.partner_invoice_id.id, line.product_id, order.partner_id)
+
+            values['price_line_subtotal'] = taxes['total']
+            values['price_subtotal'] = taxes_disc['total']
+            order_line_pool.write(cr, uid, line.id, values, context=context)
+        return res_id
+
+    def write (self, cr, uid, ids, vals, context=None):
+        res = super(sale_order, self).write(cr, uid, ids, vals, context)
+        order_line_pool = self.pool.get('sale.order.line')
+        tax_obj = self.pool.get('account.tax')
+        if isinstance( ids, int ): ids=[ids]
         for order in self.browse(cr, uid, ids, context):    
             for line in order.order_line:
-                self.pool.get('sale.order.line').write(cr, uid, line.id, {}, context=context)
-        return {}
+                values={}
+                # Cálculo de descuentos
+                precio = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+                taxes = tax_obj.compute_all(cr, uid, line.tax_id, precio, line.product_uom_qty, order.partner_invoice_id.id, line.product_id, order.partner_id)
+                for discount in order.global_discount_ids: precio -= precio * discount.value / 100.0
+                taxes_disc = tax_obj.compute_all(cr, uid, line.tax_id, precio, line.product_uom_qty, order.partner_invoice_id.id, line.product_id, order.partner_id)
 
+                values['price_line_subtotal'] = taxes['total']
+                values['price_subtotal'] = taxes_disc['total']
+                order_line_pool.write(cr, uid, line.id, values, context=context)
+        return res
+        
+    def button_dummy(self, cr, uid, ids, context=None):
+        this = self.browse(cr, uid, ids[0], context)
+        order_line_pool= self.pool.get('sale.order.line')
+        fiscal_pos_pool= self.pool.get('account.fiscal.position')
+        pricelist_pool = self.pool.get('product.pricelist')
+        tax_obj = self.pool.get('account.tax')
+        cur_obj = self.pool.get('res.currency')
 
+        for line in this.order_line:
+            result = {}
+            result['delay'] = (line.product_id.sale_delay or 0.0)
+            result['tax_id'] = fiscal_pos_pool.map_tax(cr, uid, line.order_id.fiscal_position, line.product_id.taxes_id)            
+            result.update({'type': line.product_id.procure_method})
+            result['tax_id']=[[6,0,result['tax_id']]]
+            result.update({'price_line_subtotal': 0.0, 'price_subtotal': 0.0,})
+            # Cálculo del precio unitario según posición fiscal
+            price = self.pool.get('product.pricelist').price_get(cr, uid, [this.pricelist_id.id], line.product_id.id, line.product_uom_qty or 1.0, line.order_partner_id.id, {
+                    'uom': line.product_uom.id or result.get('product_uom'), 'date': this.date_order,})[this.pricelist_id.id]
+            if price == 0.0:
+                price = pricelist_pool.price_get(cr, uid, [this.partner_id.property_product_pricelist.id], line.product_id.id, line.product_uom_qty or 1.0, line.order_partner_id.id, {
+                    'uom': line.product_uom.id or result.get('product_uom'), 'date':this.date_order})[this.partner_id.property_product_pricelist.id]
+            result.update({'price_unit':price})
+            # Cálculo de descuentos
+            precio = price * (1 - (line.discount or 0.0) / 100.0)
+            taxes = tax_obj.compute_all(cr, uid, line.tax_id, precio, line.product_uom_qty, line.order_id.partner_invoice_id.id, line.product_id, line.order_id.partner_id)
+            for discount in line.order_id.global_discount_ids:
+                precio -= precio * discount.value / 100.0
+            taxes_disc = tax_obj.compute_all(cr, uid, line.tax_id, precio, line.product_uom_qty, line.order_id.partner_invoice_id.id, line.product_id, line.order_id.partner_id)
+            cur = line.order_id.pricelist_id.currency_id
+            result['price_line_subtotal'] = taxes['total']
+            result['price_subtotal'] = taxes_disc['total']
 
+            order_line_pool.write(cr, uid, line.id, result)
+        return True  
 sale_order()
 
 class sale_order_line(osv.osv):
     _inherit='sale.order.line'
-
     def _amount_line(self, cr, uid, ids, field_name, arg, context=None):
         tax_obj = self.pool.get('account.tax')
         cur_obj = self.pool.get('res.currency')
         res = {}
         if context is None:
             context = {}
+        if isinstance( ids, int ): ids=[ids]
         for line in self.browse(cr, uid, ids, context=context):
-            res[line.id] = {
-                'price_line_subtotal': 0.0,
-                'price_subtotal': 0.0,
-            }
+            res[line.id] = {'price_line_subtotal': 0.0, 'price_subtotal': 0.0,}
             price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
             taxes = tax_obj.compute_all(cr, uid, line.tax_id, price, line.product_uom_qty, line.order_id.partner_invoice_id.id, line.product_id, line.order_id.partner_id)
             for discount in line.order_id.global_discount_ids:
